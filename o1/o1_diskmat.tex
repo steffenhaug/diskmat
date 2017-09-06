@@ -1,0 +1,271 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[fleqn]{amsmath}
+\usepackage{amsthm, amssymb}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{caption}
+\usepackage[norsk]{babel}
+\usepackage[all]{nowidow}
+%\usepackage{indentfirst}
+\usepackage{mathtools}
+\usepackage{sectsty}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows}
+\usepackage{pdfpages}
+\usepackage{amssymb}
+\usepackage{bbold}
+\usepackage{cancel}
+
+% Unicode-inkompatibilitet mactex/texlive?
+\DeclareUnicodeCharacter{00A0}{ }
+
+% Få fancyhdr til å holde kjeft
+\setlength{\headheight}{14pt} 
+
+%-------------------------------------%
+% Dokument-settings
+%-------------------------------------%
+\newcommand{\tittel}{Øving 1}
+\newcommand{\fag}{Diskret Matematikk}
+\newcommand{\fagkode}{TMA4140}
+\newcommand{\forfatter}{Steffen Haug}
+
+
+\renewcommand{\qedsymbol}{$\themecolor{\blacksquare}$}
+\newcommand{\lheq}{\stackrel{\text{\tiny{L'Hop}}}{=}}
+\newcommand{\ceq}[2]{\stackrel{\text{\tiny{#1}}}{#2}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\deloppg}[1]{\vspace{1mm}\noindent \textbf{\themecolor{#1:}}}
+\newcommand{\steg}[1]{\vspace{1mm}\noindent {\themecolor{#1:}}}
+\newcommand{\dint}{\int\displaylimits}
+
+\newcommand{\cvec}[1]{\begin{bmatrix}#1\end{bmatrix}}
+
+\newcommand{\themeshade}{Mahogany}
+\newcommand{\themecolor}[1]{\textcolor{\themeshade}{#1}}
+\sectionfont{\color{\themeshade}}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\def\dul#1{\underline{\underline{#1}}}
+\def\multipart#1{
+\left\{
+	\begin{array}{ll}
+		#1
+	\end{array}
+\right.
+}
+
+
+\usepackage{fancyhdr}
+\lhead{\tittel \:{\color{\themeshade}\fagkode}}
+\rhead{\forfatter}
+
+\author{\forfatter}
+\date{}
+
+\newcommand*{\titleTH}{\begingroup % Create the command for including the title page in the document
+\raggedleft % Right-align all text
+\vspace*{\baselineskip} % Whitespace at the top of the page
+
+{\Large \forfatter}\\[0.167\textheight] % Author name
+
+{\LARGE\bfseries \tittel}\\[\baselineskip] % First part of the title, if it is unimportant consider making the font size smaller to accentuate the main title
+
+{\themecolor{\Huge \fag}}\\[\baselineskip] % Main title which draws the focus of the reader
+
+{\Large \textit{\fagkode}}\par % Tagline or further description
+
+\vfill % Whitespace between the title block and the publisher
+\endgroup}
+
+
+\begin{document}
+
+\pagestyle{empty}
+\titleTH
+\newpage\pagestyle{fancy}
+
+\section*{Oppgåver til seksjon 1.1} % 12c 12f 14a 14e
+
+\subsection*{Oppgåve 12cf}
+La $p, q$ og $r$ vera proposisjonane
+\begin{align*}
+    p&: \text{You have the flu.} \\
+    q&: \text{You miss the final examination.} \\
+    r&: \text{You pass the course.}
+\end{align*}
+
+\noindent Proposisjonar uttrykte som engelske setningar:
+\begin{align*}
+    q \rightarrow \neg r: &\;\text{If you have the flu, you will not pass the course.} \\
+    (p \land q) \lor (\neg q \land r): &\;\text{You have the flu and you miss the final examination,}\\ 
+    &\;\text{or you do not miss the final examination}\\
+    &\;\text{and you pass the course.} \\
+\end{align*}
+
+\subsection*{Oppgåve 14}
+La $p,q$ og $r$ vera proposisjonane
+\begin{align*}
+    p&: \text{You get an A on the final exam.}\\
+    q&: \text{You do every exercise in this book.}\\
+    r&: \text{You get an A in this class.}\\
+\end{align*}
+
+\noindent \themecolor{Proposisjonar uttrykte som logiske uttrykk:}
+
+\deloppg{a} You get an A in this class, but you do not do every exercise in this book.
+\[
+    r \land \neg q    
+\]
+
+\deloppg{e} Getting an A on the final and doing every exercise in this book
+is sufficient for getting an A in this class.
+\[
+    (p \land q) \rightarrow r
+\]
+
+
+\newpage \section*{Oppgåver til seksjon 1.3}
+
+\subsection*{Oppgåve 10}
+Skal vise at uttrykka er tautologiar.
+
+\deloppg{a} $[\neg p \land (p \lor q)] \rightarrow q$
+
+\begin{tabular}{c c c c c | c}
+    $p$ &  $q$  &  $\neg p$ & $a: p \lor q$ & $b: \neg p \land a$   & $b \rightarrow q$ \\
+    \hline
+    0   & 0     & 1         & 0             & 0                     & 1                 \\
+    0   & 1     & 1         & 1             & 1                     & 1                 \\
+    1   & 0     & 0         & 1             & 0                     & 1                 \\
+    1   & 1     & 0         & 1             & 0                     & 1                 \\
+\end{tabular}
+
+\deloppg{b} $[(p \rightarrow q) \land (q \rightarrow r)] \rightarrow (p \rightarrow r)$
+
+\begin{tabular}{ccccccc|c}
+    $p$ & $q$ & $r$ & $a: p \rightarrow q$ & $b: q \rightarrow r$
+    & $c: a \land b$ & $d: p \rightarrow r$ & $c \rightarrow d$\\
+    \hline
+    0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+    0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    0 & 1 & 0 & 1 & 0 & 0 & 1 & 1 \\
+    0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    1 & 0 & 0 & 0 & 1 & 0 & 0 & 1 \\
+    1 & 0 & 1 & 0 & 1 & 0 & 1 & 1 \\
+    1 & 1 & 0 & 1 & 0 & 0 & 0 & 1 \\
+    1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\end{tabular}
+
+\deloppg{c} $[p \land (p \rightarrow q)] \rightarrow q$
+
+\begin{tabular}{cccc|c}
+    $p$ & $q$ & $a: p \rightarrow q$ & $b: p \land a$ & $b \rightarrow q$ \\
+    \hline
+    0   & 0   & 1                    & 0              & 1 \\
+    0   & 1   & 1                    & 0              & 1 \\
+    1   & 0   & 0                    & 0              & 1 \\
+    1   & 1   & 1                    & 1              & 1 \\
+\end{tabular}
+
+\deloppg{d} $[(p \land q) \land (p \rightarrow r) \land (q \rightarrow r)] \rightarrow r$
+
+\begin{tabular}{ccccccc|c}
+    $p$ & $q$ & $r$ & $a: p \land q$ & $b: p \rightarrow r$
+    & $c: q \rightarrow r$ & $d: a\land b\land c$ & $d \rightarrow r$ \\
+    \hline
+    0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 \\ 
+    0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 \\
+    0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 \\
+    0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 1 & 0 & 1 & 0 & 0 & 0 & 1 \\
+    1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\end{tabular}
+
+
+\newpage
+\section*{Oppgåver til seksjon 1.4}
+
+\subsection*{Oppgåve 24}
+
+\deloppg{d} All students in your class can solve quadratic equations.
+\begin{align*}
+    &P(x): \text{student $x$ kan løyse kvadratiske likningar}\\
+    &Q(x): \text{student $x$ er i klassa}
+\end{align*}
+\begin{align*}
+    &\themecolor{x\in U = \{\text{alle elevar i klassa}\}} \\
+    &\forall x P(x)\\
+    &\themecolor{x\in U = \{ \text{alle mennesker} \}} \\
+    &\forall x (Q(x)\rightarrow P(x))
+\end{align*}
+
+
+\deloppg{e} Some students in your class does not want to be rich.
+\begin{align*}
+    &P(x): \text{student $x$ har lyst å bli rik}\\
+    &Q(x): \text{student $x$ er i klassa}
+\end{align*}
+\begin{align*}
+    &\themecolor{x\in U = \{\text{alle elevar i klassa}\}} \\
+    &\exists x P(x) \\
+    &\themecolor{x\in U = \{ \text{alle mennesker} \}} \\
+    &\exists x (Q(x)\rightarrow P(x))
+\end{align*}
+
+
+\section*{Oppgåver til seksjon 1.5}
+ 
+\subsection*{Oppgåve 12}
+\begin{align*}
+    I(x)&: \text{$x$ has an Internet connection} \\
+    C(x,y)&: \text{$x$ and $y$ have chatted over the Internet}\\
+    x \in U &= \{ \text{elevar i klassa} \}
+\end{align*}
+
+\deloppg{b} Rachel has not chatted over the Internet with Chelsea.
+\[
+    \exists x \exists y \neg C(x,y)
+\]
+I klassa {\em eksisterer} ein person $x$, nemleg Rachel,
+og der {\em eksisterer} ein person $y$, Chelsea,
+slik at $C$ {\em ikkje} held.
+
+
+\deloppg{e} Sanjay has chatted with everyone except Joseph.
+\[
+    \exists x \exists y \neg C(x,y)
+\]
+I klassa {\em eksisterer} ein person $x$, Sanjay,
+og der {\em eksisterer} ein person $y$, Joseph,
+slik at $C$ {\em ikkje} held.
+
+\subsection*{Oppgåve 30}
+\deloppg{c} $\neg \exists y (Q(y) \land \forall x \neg R(x,y))$
+\begin{align*}
+     &\; \neg \exists y (Q(y) \land \forall x \neg R(x,y)) \\
+    =&\; \forall y \neg (Q(y) \land \forall x \neg R(x,y)) \\
+    =&\; \forall y (\neg Q(y)) \lor (\neg \forall x \neg R(x,y)) \\
+    =&\; \forall y \neg Q(y) \lor \exists x R(x,y)
+\end{align*}
+
+\deloppg{e} $\neg \exists y (\forall x \exists z T(x,y,z) \lor \exists x \forall z U(x,y,z))$
+\begin{align*}
+     &\; \neg \exists y (\forall x \exists z T(x,y,z) \lor \exists x \forall z U(x,y,z)) \\
+    =&\; \forall y \neg (\forall x \exists z T(x,y,z) \lor \exists x \forall z U(x,y,z)) \\
+    =&\; \forall y (\neg \forall x \exists z T(x,y,z)) 
+        \land (\neg \exists x \forall z U(z,y,z)) \\
+    =&\; \forall y (\exists x \forall z \neg T(x,y,z))
+        \land (\forall x \exists z \neg U(x,y,z)) \\
+\end{align*}
+
+\end{document}
+
