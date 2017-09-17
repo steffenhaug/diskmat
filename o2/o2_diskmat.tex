@@ -122,8 +122,8 @@
     &\{x \in A : x \not\in B, x \not\in C\} \subseteq \{x \in A : x \not\in C\} \\
     \intertext{Brukar definisjonen av delmengder:}
     &\forall x (x \in A \land x\not\in B \land x\not\in C) \rightarrow (x \in A \land x \not\in C))\\
-    &\forall x (x \in (A\setminus B)\setminus C \rightarrow x \in A \setminus C) \\
-    \implies &(A \setminus B)\setminus C \subseteq A \setminus C
+    &\forall x (x \in (A - B) - C \rightarrow x \in A - C) \\
+    \implies &(A - B) - C \subseteq A - C
 \end{align*}
 
 \deloppg{d} \( (A - C) \cap (C - B) = \varnothing\)
