@@ -221,23 +221,16 @@ Løyste \(3x^2 + x + 1 = 4x^2\) og fann \(k = \frac{1}{2} + \sqrt{5}\).
 
 \newpage
 \subsection*{Oppgåve 42}
-Skal undersøkje om \(f(x) \text{ er } O(g(x)) \implies 2^{f(x)} \text{ er } O(2^{g(x)})\)
+Skal undersøkje om \(f(x) \text{ er } O(g(x)) \implies 2^{f(x)} \text{ er } O(2^{g(x)})\).
+Prøver med moteksempel.
+
 \begin{align*}
-    (i)\;& f(x) \text{ er } O(g(x)) \implies 
-        \exists\; C, k > 0 \text{ slik at } |f(x)| < C|g(x)| \;\forall\; x > k \\
-    (ii)\;& 2^x \text{ er monotont veksande: } x_2 > x_1 \implies 2^{x_2} > 2^{x_1} \\
-    \intertext{For $x>k$ er altso |f(x)| strengt lågare enn C|g(x)| $(i)$. Av $(ii)$ følger det at}
-    x > k & \implies |f(x)| < C|g(x)| \\
-    & \implies \log_2 2^{|f(x)|} < \log_2 2^{C|g(x)|} \\
-    & \implies \log_2 2^{|f(x)|} < C \log_2 2^{|g(x)|} \;*\\
-    & \implies 2^{|f(x)|} < C 2^{|g(x)|} \\
-    & \implies |2^{f(x)}| < C |2^{g(x)}| \;**\\
-    & \implies 2^{f(x)} \text{ er } O(2^{g(x)})
+    & \frac{2^{x^2 + x + 1}}{C2^{x^2}} = \frac{2^{x^2}2^x2}{C2^{x^2}}
+        = \frac{2^{x+1}}{C} \xrightarrow{x \rightarrow \infty} \infty \\
 \end{align*}
-\begin{align*}
-    * \;& \log a^{xy} = \log (a^x)^y = y\log a^x, \quad x,y > 0 \\
-    **\;& \text{Dette held kanskje ikkje dersom $f(x)$ og $g(x)$ er negative?}
-\end{align*}
+
+\noindent Påstanden held ikkje.
+
 
 
 \section{Oppgåver til seksjon 4.1}
