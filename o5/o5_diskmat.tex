@@ -187,12 +187,12 @@ menn og \(n-1\) kvinner (\((n-1)^2\) måtar å organisere), og so vidare, så he
 
 \subsection*{Oppgåve 19}
 \begin{lstlisting}
-(defn fac [n]
-  (if (= n 0)
+(fn fac [n]
+  (if (zero? n)
     1
-    (* n (fac (- n 1)))))
+    (* n (fac (dec n)))))
 
-(defn ncr [n r]
+(fn ncr [n r]
   (/ (fac n) (* (fac r) (fac (- n r)))))
 \end{lstlisting}
 
