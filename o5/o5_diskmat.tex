@@ -1,0 +1,239 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[norsk]{babel}
+\usepackage[all]{nowidow}
+\usepackage{fancyhdr}
+\usepackage{mathtools}
+\usepackage{sectsty}
+\usepackage{etoolbox}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{inconsolata}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,patterns}
+\usepackage{pgfplots}
+
+
+% Unicode-inkompatibilitet mactex/texlive?
+\DeclareUnicodeCharacter{00A0}{ }
+
+% Få fancyhdr til å holde kjeft
+\setlength{\headheight}{14pt} 
+
+\newcommand{\tittel}{Øving 5}
+\newcommand{\fag}{Diskret Matematikk}
+\newcommand{\fagkode}{TMA4140}
+\newcommand{\forfatter}{Steffen Haug}
+
+\renewcommand{\qedsymbol}{$\themecolor{\blacksquare}$}
+
+\newcommand{\ceq}[2]{\stackrel{\text{\tiny{#1}}}{#2}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Mod}{\;\text{\bf mod}\;}
+\newcommand{\Modulo}{\text{mod }}
+\newcommand{\deloppg}[1]{\vspace{1mm}\noindent \textbf{\tt \themecolor{#1:}}}
+\newcommand{\dint}{\int\displaylimits}
+
+\newcommand{\themeshade}{Mahogany}
+\newcommand{\themecolor}[1]{\textcolor{\themeshade}{#1}}
+\sectionfont{\color{\themeshade}}
+
+\def\dul#1{\underline{\underline{#1}}}
+
+% Forside
+\newcommand*{\titleTH}{\begingroup 
+    \raggedleft
+    \vspace*{\baselineskip}
+    {\Large \forfatter}\\[0.167\textheight]
+    {\LARGE\bfseries \tittel}\\[\baselineskip]
+    {\themecolor{\Huge \fag}}\\[\baselineskip]
+    {\Large \textit{\fagkode}}\par
+    \vfill
+\endgroup}
+
+\begin{document}
+
+\lstdefinestyle{themecode}{
+    keywordstyle=\themecolor,
+}
+
+\lstset{numbers=left, basicstyle=\ttfamily, style=themecode}
+
+% Front Page
+\pagestyle{empty}
+\titleTH
+\newpage
+
+
+\section*{Oppgåver til seksjon 4.4} % 21 33 37a
+
+\subsection*{Oppgåve 21}
+Skal finne løysing til systemet
+\begin{align*}
+    x &\equiv 1 \;(\Modulo 2) \\
+    x &\equiv 2 \;(\Modulo 3) \\
+    x &\equiv 3 \;(\Modulo 5) \\
+    x &\equiv 4 \;(\Modulo 11)
+\end{align*}
+La \(m = 2 \cdot 3 \cdot 5 \cdot 11 = 330, M_1 = m/2 = 165, M_2 = m/3 = 110, M_3 = m/5 = 66, M_4 = m/11 = 30\)
+Vi ser at
+\begin{align*}
+    1 \text{ er invers til } &M_1 = 165 \;(\Modulo 2) \text{ fordi } 165 \cdot 1 \equiv 1 \cdot 1 \equiv 1 \;(\Modulo 2) \\
+    2 \text{ er invers til } &M_2 = 110 \;(\Modulo 3) \text{ fordi } 110 \cdot 2 \equiv 2 \cdot 2 \equiv 1 \;(\Modulo 3) \\
+    1 \text{ er invers til } &M_3 = 66 \;(\Modulo 5) \text{ fordi } 66 \cdot 1 \equiv 1 \cdot 1 \equiv 1 \;(\Modulo 5) \\
+    7 \text{ er invers til } &M_4 = 30 \;(\Modulo 11) \text{ fordi } 30 \cdot 7 \equiv 8 \cdot 7 \equiv 1 \;(\Modulo 11)
+\end{align*}
+Løysingar til systemet er dei slik at
+\begin{align*}
+    x \equiv a_1M_1y_1 + a_2M_2y_2 + a_3M_3y_3 + a_4M_4y_4
+        &= 1 \cdot 165 \cdot 2 + 2 \cdot 110 \cdot 2 + 3 \cdot 66 \cdot 1 + 4 \cdot 30 \cdot 7 \\
+        &= 1808 = 158 \;(\Modulo 330)
+\end{align*}
+
+\section*{Oppgåve 33}
+Skal bruke Fermats vesle teorem (heretter f.v.t.) til å finne \(7^{121} \Mod 13\).
+f.v.t. seier at \(7^{12} \equiv 1 \;(\Modulo 13) \rightarrow (7^{12})^n \equiv 1 \;(\Modulo 13)\)
+For å nytte dette delar vi eksponenten på 12, og merkar at \(121 = 12 \cdot 10 + 1\). Vi har at
+\begin{align*}
+    7^{121} = 7^{12 \cdot 10 + 1} = (7^{12})^{10}7 \equiv 1 \cdot 7 \equiv 7 \;(\Modulo 13)
+\end{align*}
+Dermed \(7^{121} \Mod 13 = 7\)
+
+
+\subsection*{37a}
+Skal vise at \(2^{340} \equiv 1 \;(\Modulo 11)\).
+f.v.t gir direkte \((2^{10})^n \equiv 1 \;(\Modulo 11)\).
+Dermed har vi \(2^{340} = (2^{10})^{34} \equiv 1 \;(\Modulo 11)\)
+
+
+\newpage
+\section*{Oppgåver til seksjon 6.1} % 27 44
+\subsection*{Oppgåve 27}
+Skal finne kor mange måtar ein kan organisere ein kommitté av representantar frå 50 statar,
+der kvar stat kan representerast av guvernøren {\em eller} ein av to senatorar.
+
+Frå kvar stat er der 3 personar som vera representant, uavhenging av andre statar.
+Produktregelen gjev at kommitéen kan setjast saman på \(3^{50}\) forskjellige måtar.
+
+
+\subsection*{Oppgåve 44}
+Skal finne kor mange måtar ein kan plassere 4 personar av ei gruppe på 10 ved eit rundt bord,
+der to plasseringar er like dersom kvar person har den same personen på begge sider.
+
+Vi vel eit vilkårleg sete som sete 1, og nummerer setene med klokka.
+Det er 10 måtar å velje ein person i sete 1, 9 måtar å velje sete 2, og so vidare.
+Dersom vi flyttar alle personar med klokka (vi vel med andre ord eit anna sete som sete 1)
+er plasseringa for øvrig den same. Talet måtar (\(n\)) vi kan plassere personane er
+\begin{align*}
+    n = \frac{10 \cdot 9 \cdot 8 \cdot 7}{4} = 10 \cdot 9 \cdot 7 \cdot 2 = 1260
+\end{align*}
+Fordi vi kan velje sete 1 på 4 forskjellige måtar.
+
+
+\section*{Oppgåver til seksjon 6.2} % 10 18
+\subsection*{Oppgåve 10}
+Skal vise at dersom vi har 5 punkt \((x_i, y_i), \; i = 1,2,3,4,5\), må minst eitt midtpunkta mellom
+dei ha heiltalskoordinatar, det vil seie
+\begin{align*}
+    x_i+x_j, \text{ og } y_i+y_j
+\end{align*}
+Skal begge vera partal for (minst) to punkt, \(i\) og \(j\).
+
+Merk at der kun er fire måtar å konstruere heiltalspunkt, med omsyn til odde- og partal:
+(o, p), (p, o), (p, p), og (o, o).
+Med fire punkt på nøyaktig denne forma klarar vi å unngå at begge koordinatane summerar
+til partal, men med ein gong vi introduserer eit nytt punkt, uansett kva for ei av dei
+fire formane det tek, klarer vi ikkje å unngå det.
+
+
+\newpage
+\subsection*{Oppgåve 18}
+Gjeve ei klasse med 9 elevar. Skal vise at
+
+\deloppg{a} Klassa har minst 5 jenter {\em eller} minst 5 guttar.
+
+Dersom klassa har maksimalt 4 jenter og fire gutar kan det berre vera 8 elevar i klassa.
+
+\deloppg{b} Klassa har minst 3 gutar {\em eller} minst 7 jenter.
+
+Dersom klassa har maksimalt 2 gutar og 6 jenter kan det ikkje vera meir enn 8 elevar i klassa.
+
+
+\section*{Oppgåver til seksjon 6.3}
+\subsection*{Oppgåve 13}
+Skal finne ut kor mange måtar ein kan organisere ein kø av \(n\) menn og \(n\) kvinner, slik at
+menn og kvinner alternerer.
+
+Køen består med andre ord av kvinner og menn organisert parvis. Det fremste paret vert trekte frå
+\(n\) menn og \(n\) kvinner (\(n^2\) måtar å organisere), det andre paret vert trekte frå \(n-1\)
+menn og \(n-1\) kvinner (\((n-1)^2\) måtar å organisere), og so vidare, så heile køen kan organiserast på
+\(n^2(n-1)^2(n-2)^2 \cdots 2 \cdot 1\) måtar. Vi kjenner summen av \(n\) kvadrat, og den er
+\begin{align*}
+    \frac{n(n+1)(2n+1)}{6}
+\end{align*}
+
+
+\subsection*{Oppgåve 19}
+\begin{lstlisting}
+(defn fac [n]
+  (if (= n 0)
+    1
+    (* n (fac (- n 1)))))
+
+(defn ncr [n r]
+  (/ (fac n) (* (fac r) (fac (- n r)))))
+\end{lstlisting}
+
+\deloppg{b}
+Skal finne kor mange utfall som har nøyaktig 2 kron, når ein mynt vert kasta 10 gongar.
+
+Rekkjefølgja vi ``trekk'' myntane i betyr ikkje noko. Svaret er altal 2-kombinasjonar av 10:
+\begin{align*}
+    C(10,2) = 45
+\end{align*}
+
+\deloppg{c}
+Skal finne kor mange utfall som har maksimalt 3 mynt, når ein mynt vert kasta 10 gongar.
+
+Rekkjefølgja vi ``trekk'' myntane i betyr ikkje noko. Svaret er summen av kombinasjonane
+som gjer nøyaktig 1, 2 og 3 myntar.
+\begin{align*}
+    C(10,1) + C(10,2) + C(10,3) = 175
+\end{align*}
+
+
+\subsection*{Oppgåve 34}
+Gjeve ei avdeling med 10 menn og 15 kvinner, skal finne kor mange måtar ein kan organisere ein
+kommitté på 6 personar slik at den har fleire kvinner enn menn. Kommittéen kan med andre ord ha
+4 kvinner og 2 menn, 5 kvinner og 1 mann, eller 6 kvinner.
+\begin{align*}
+    C(15,4) \cdot C(10,2) + C(15,5) \cdot C(10,1) + C(15,6) \cdot C(10, 0) = 96460
+\end{align*}
+
+
+\section*{Oppgåver til seksjon 6.4}
+\subsection*{Oppgåve 9}
+Skal finne koeffisienten til \(x^{101}y^{99}\) i \((2x - 3y)^{200}\).
+\begin{align*}
+    (2x + (-3y))^{200} = \sum_{j = 0}^{200}{200 \choose j} (2x)^{200-j}(-3y)^j
+\end{align*}
+Koeffisienten vi skal finne svarar til \(j = 99\), nemleg
+\begin{align*}
+    {200 \choose 99}2^{101}(-3)^{99} = -\frac{200!}{101!99!}2^{101}(-3)^{99}
+\end{align*}
+
+
+
+\end{document}
