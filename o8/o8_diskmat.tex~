@@ -1,0 +1,156 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage[all]{nowidow}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% Code
+\usepackage{listings}
+\usepackage{inconsolata}
+
+% PGF/TikZ
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,patterns}
+\usepackage{pgfplots}
+
+
+% Theme related
+\newcommand{\Themecolor}{Black} % main color in theme
+\newcommand{\Themetext}[1]{\textcolor{\Themecolor}{#1}}
+
+
+% Custom functionality
+\newcommand{\Ceq}[2]{\stackrel{\text{\tiny{#1}}}{#2}} % use for commented =, \leq \geq etc.
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Task}[1]{\vspace{2mm}\noindent {\tt \Themetext{#1: }}}
+\newcommand{\Mod}{\;\text{\bf mod}\;}
+\newcommand{\Modulo}[1]{\;(\text{mod }#1)}
+\newcommand{\Signum}[1]{\;\text{signum}(#1)}
+
+
+% Få fancyhdr til å holde kjeft
+\setlength{\headheight}{14pt} 
+
+% Få pgfplots til å holde kjeft
+\pgfplotsset{compat=1.15}
+
+\lstdefinelanguage{Lie}
+{
+  % list of keywords
+  morekeywords={
+    include,
+    if,
+    let,
+    fn,
+    lambda,
+    match,
+    unless,
+  },
+  sensitive=true,       % keywords are case-sensitive
+  morecomment=[l]{;},   % l is for line comment
+  morestring=[b]"       % double quoted strings
+}
+
+\lstdefinestyle{themecode}{
+    keywordstyle=\bfseries\Themetext,
+    commentstyle=\textcolor{Gray}
+}
+
+\lstset{
+    numbers=left,
+    basicstyle=\ttfamily,
+    style=themecode,
+    extendedchars=true,
+    showstringspaces=false,
+    literate={λ}{{$\lambda$}}1
+             {π}{{$\pi$}}1
+             {->}{{$\rightarrow$}}2,
+}
+
+
+\begin{document}
+% Front Page:
+{
+  \raggedleft
+  {\Large Steffen Haug} \\
+  {\large \bfseries Rettast}\\[0.167\textheight]
+  {\LARGE \bfseries Øving 8} \\[\baselineskip]
+  {\Large Diskret Matematikk}
+
+}
+\thispagestyle{empty}
+\pagestyle{empty}
+\newpage
+
+\section*{Oppgåver til seksjon 9.1} % 7 40a 40c
+\subsection*{Oppgåve 7}
+Betraktar relasjonar på \(\Z\)
+
+\Task{a} \(R = \{(x, y) \:|\: x \neq y\}\)
+
+\noindent Relasjonen er ikkje reflektiv. Den inneheld alle \((x,y)\), sett vekk frå
+\((a,a), \; a\in\Z\). Relasjonen er symmetrisk, fordi \(x \neq y \rightarrow y \neq x\).
+Relasjonen er ikkje transitiv: til dømes er \((1,2), (2,1) \in R\) men \((1,1) \not\in R\).
+
+
+\Task{b} \(R = \{(x,y) \:|\: xy \geq 1\}\)
+
+\noindent Relasjonen er ikkje reflektiv fordi \((0,0)\not\in R\) sjølv om \(0 \in \Z\).
+Relasjonen er symmetrisk fordi multiplikasjon er kommutativ. Relasjonen er transitiv:
+\((a_1,a_2), (b_1,b_2) \in R \rightarrow a_1,b_2 \neq 0 \rightarrow (a_1, b_2) \in R\)
+
+\Task{c} \(R = \{(x,y) \:|\: x = y + 1\}\)
+
+\noindent Relasjonen er ikkje reflektiv fordi \(x = y + 1 \rightarrow x \neq y\). Relasjonen
+er antisymmetrisk fordi \(x = y + 1 \rightarrow (p+1, p) \in R \text{, men } y = x - 1
+\rightarrow (p, p+1) \not\in R\). Relasjonen er ikkje transitiv fordi
+\((y+1, y), (y, y-1) \in R \rightarrow (y+1, y-1) \not\in R\)
+
+
+\Task{d} \(R = \{(x,y) \:|\: x  \equiv y \Modulo{7}\}\)
+
+\noindent Relasjonen er reflektiv fordi alle tal er ekvivalent med seg sjølv, i kva
+modulo som helst. Relasjonen er symmetrisk, fordi \(x \equiv y \Modulo{7} \rightarrow
+y \equiv x \Modulo{7}\). Relasjonen er transitiv fordi \(x \equiv y \Modulo{7},\:
+y \equiv z \Modulo{7} \rightarrow x \equiv z \Modulo{7}\)
+
+\Task{e} \(R = \{(x,y) \:|\: x \text{ er multippel av } y\} = \{(x,y) \:|\: y | x\}\)
+
+\noindent Relasjonen er reflektiv, fordi alle tal deler seg sjølv. Relasjonen er antisymmetrisk,
+til dømes: \((15, 3) \in R\), men \((3, 15) \not\in R\). Relasjonen er transitiv, fordi
+\(\forall a,b,c \; (a,b) \in R, (b,c) \in R \rightarrow b|a, c|b \rightarrow c|a \rightarrow
+(a,c) \in R\)
+
+\Task{f} \(\begin{array}{@{}rl}
+             R =&\!\!\!\! \{(x,y) \:|\: x, y \text{ begge negative eller begge ikkje-negative}\} \\
+             =&\!\!\!\! \{(x,y) \:|\: \text{signum}(x) = \text{signum}(y)\}
+           \end{array}
+\)
+
+\noindent Relasjonen er reflektiv, fordi alle tal har same forteikn som seg sjølv.
+Relasjonen er symmetrisk, fordi \((a,b) \in R \rightarrow \text{signum}(a)
+= \text{signum}(b) \rightarrow (b, a) \in R\).
+Relasjonen er transitiv, fordi \(\Signum{a} = \Signum{b}, \Signum{b} = \Signum{c}
+\rightarrow \Signum{a} = \Signum{c} \rightarrow (a,c) \in R\)
+           
+           
+
+
+
+
+
+
+
+
+\end{document}
