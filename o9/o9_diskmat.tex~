@@ -1,0 +1,548 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{fancyhdr}
+\usepackage[all]{nowidow}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fontspec}
+\usepackage{filecontents}
+
+\setmonofont{Consolas}
+\newfontfamily{\Consolas}{Consolas}
+\newfontfamily{\Inconsolata}{Inconsolata}
+\setmainfont{Linux Libertine}
+
+% Page geometry and layout-related
+\usepackage{sectsty}
+\usepackage{geometry}
+\usepackage{marginnote}
+\usepackage[11pt]{moresize}
+
+% Mathematics
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{blkarray}
+
+% Code
+\usepackage{listings}
+
+% PGF/TikZ
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,patterns}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+% Theme related
+\newcommand{\Themecolor}{Black} % main color in theme
+\newcommand{\Themetext}[1]{\textcolor{\Themecolor}{#1}}
+\newcommand{\TT}[1]{\Themetext{#1}}
+\renewcommand{\arraystretch}{1.2}
+\definecolor{DarkGray}{rgb}{0.2,0.2,0.2}
+\definecolor{MedGray}{rgb}{0.3,0.3,0.3}
+\definecolor{LightGray}{rgb}{0.6,0.6,0.6}
+
+% -------------------- %
+% Custom functionality %
+% -------------------- %
+
+% Document organization
+\newcommand{\Task}[1]{
+  \noindent {{\bf \Themetext{#1:}}}
+}
+\newcommand{\MajorTask}[1]{
+  \vspace{5mm}
+  \reversemarginpar
+  \marginnote{\LARGE\bfseries \Themetext{#1}}
+}
+
+% Math
+\newcommand{\Ceq}[2]{\stackrel{\text{\tiny{#1}}}{#2}} % use for commented =, \leq \geq etc.
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Mod}{\;\text{\bf mod}\;}
+\newcommand{\Modulo}[1]{\;(\text{mod }#1)}
+\newcommand{\Sgn}[1]{\text{sgn}(#1)}
+\newcommand{\Dul}[1]{\underline{\underline{#1}}}
+
+
+% Få fancyhdr til å holde kjeft
+\setlength{\headheight}{14pt} 
+
+% Få pgfplots til å holde kjeft
+\pgfplotsset{compat=1.15}
+
+\lstdefinelanguage{Lie}
+{
+  % list of keywords
+  morekeywords={
+    include,
+    if,
+    let,
+    fn,
+    lambda,
+    match,
+    unless,
+    def,
+  },
+  sensitive=true,       % keywords are case-sensitive
+  morecomment=[l]{;;},  % l is for line comment
+  morestring=[b]"       % double quoted strings
+}
+
+\lstdefinestyle{themecode}{
+    keywordstyle=\Inconsolata\bfseries\Themetext,
+    commentstyle=\textcolor{LightGray},
+    stringstyle=\textcolor{MedGray}
+}
+
+\lstset{
+  numbers=left,
+  numberstyle=\footnotesize\ttfamily\color{MedGray},
+  basicstyle=\ttfamily,
+  style=themecode,
+  extendedchars=true,
+  showstringspaces=false,
+  literate=
+  {λ}{{\Consolas\TT{λ}}}1
+  {Λ}{{\Consolas\TT{Λ}}}1
+  {σ}{{\Consolas {σ}}}1
+  {Σ}{{\Consolas {Σ}}}1
+  {<}{{\Consolas {<}}}1
+  {>}{{\Consolas {>}}}1
+  {-}{{\Consolas {-}}}1
+  {+}{{\Consolas {+}}}1
+  {π}{{\Consolas\textcolor{DarkGray}{π}}}1
+  {Π}{{\Consolas\textcolor{DarkGray}{Π}}}1
+  {True}{{\textbf{\textcolor{DarkGray}{True}}}}4
+  {False}{{\textbf{\textcolor{DarkGray}{False}}}}5
+  {NIL}{{\textbf{\textcolor{DarkGray}{NIL}}}}3,
+}
+
+
+% This is (by far btw) the worlds ugliest hack
+% Makes some unicode work in lstlistings
+% TODO: put this shit in a file
+\makeatletter
+\lst@InputCatcodes
+\def\lst@DefEC{%
+  \lst@CCECUse \lst@ProcessLetter
+  ^^^^03bb^^^^039b % lambda
+  ^^^^03c0^^^^03a0 % pi
+  ^^^^03c3^^^^03a3 % sigma
+  ^^^^03b1^^^^0391 % alpha
+  ^^^^03b2^^^^0392 % beta
+  ^^00}
+\lst@RestoreCatcodes
+\makeatother
+
+\begin{document}
+% Front Page:
+{
+  \raggedleft
+  {\Large Steffen Haug} \\
+  {\large \underline{\bf Rettast}} \\ [0.167\textheight]
+  {\HUGE \bfseries \Themetext{Øving 9}} \\ [\baselineskip]
+  {\LARGE {Diskret Matematikk}} \\
+}
+\thispagestyle{empty}
+\pagestyle{empty}
+\newpage
+
+\section*{Oppgåver til seksjon 9.6} \vspace{-5mm}
+\MajorTask{9} \noindent Skal avgjera om relasjonen med den følgjande retta grafen
+er ei partiell ordning.
+Skal med andre ord avgjera om relasjonen er refleksiv, antisymmetrisk og transitiv.
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \tikzset{edge/.style = {->,thick,shorten <= 2pt,shorten >= 2pt,>=stealth}}
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (1,0);
+    \coordinate (C) at (0,-1);
+    \coordinate (D) at (1,-1);
+    \draw[edge] (A) -- (B);
+    \draw[edge] (A) -- (C);
+    \draw[edge] (B) -- (D);
+    \draw[edge] (A) arc [start angle=-45, delta angle=360, radius=5pt];
+    \draw[edge] (B) arc [start angle=225, delta angle=-360, radius=5pt];
+    \draw[edge] (C) arc [start angle=45, delta angle=360, radius=5pt];
+    \draw[edge] (D) arc [start angle=135, delta angle=-360, radius=5pt];
+    \draw[fill=white] (A) circle (1pt) node [below right] {\(a\)};
+    \draw[fill=white] (B) circle (1pt) node [below left] {\(b\)};
+    \draw[fill=white] (C) circle (1pt) node [above right] {\(c\)};
+    \draw[fill=white] (D) circle (1pt) node [above left] {\(d\)};
+  \end{tikzpicture}
+\end{figure}
+
+\noindent \textbf{Refleksivitet:} Alle nodar i grafen har kantar til seg sjølv.
+Dette betyr at \((x,x) \in R\) for alle \(x \in S\). Relasjonen er refleksiv.
+
+\noindent \textbf{Antisymmetri:} Relasjonen har ingen distinkte par \(x,y\) slik
+at både \((x,y) \in R\) og \((y,x) \in R\).
+Med andre ord: \((x,y) \in R \implies (y,x) \not\in R\). Relasjonen er antisymmetrisk.
+
+\noindent \textbf{Transitivitet:} Relasjonen inneheld \((a, b)\) og \((b,d)\), men ikkje
+\((a,d)\).
+Det er altso ikkje slik at \((x,y) \in R, (y,z) \in R \implies (x,z) \in R\).
+Relasjonen er {\em ikkje} transitiv.
+
+\vspace{3mm}\noindent
+Sidan relasjonen ikkje er transitiv på \(S\), er den ikkje ei partiell ordning av \(S\).
+
+
+\MajorTask{18}
+\Task{b} Skal finne den alfabetiske ordninga av orda
+\begin{align*}
+  \text{open, opener, opera, operand, opened}
+\end{align*}
+Som er
+\begin{align*}
+  \text{\Themetext{open, opened, opener, opera, operand}}
+\end{align*}
+
+
+\MajorTask{27} \noindent
+Skal finne alle par i den partielle ordninga med følgjande Hasse-diagram.
+
+\vspace{2mm}
+\begin{minipage}{.5\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \tikzset{edge/.style = {thick,shorten <=2pt,shorten >=2pt}}
+    \coordinate (D) at (0,0);
+    \coordinate (E) at (1,0);
+    \coordinate (F) at (2,0);
+    \coordinate (G) at (1,-.75);
+    \coordinate (B) at (0,-1.5);
+    \coordinate (A) at (1,-1.5);
+    \coordinate (C) at (2,-1.5);
+
+    \draw[edge] (A) -- (G);
+    \draw[edge] (B) -- (G);
+    \draw[edge] (C) -- (G);
+    \draw[edge] (G) -- (D);
+    \draw[edge] (G) -- (E);
+    \draw[edge] (G) -- (F);
+    
+    \draw[fill=white] (A) circle (1pt) node [below] {\(a\)};
+    \draw[fill=white] (B) circle (1pt) node [below] {\(b\)};
+    \draw[fill=white] (C) circle (1pt) node [below] {\(c\)};
+    \draw[fill=white] (D) circle (1pt) node [above] {\(d\)};
+    \draw[fill=white] (E) circle (1pt) node [above] {\(e\)};
+    \draw[fill=white] (F) circle (1pt) node [above] {\(f\)};
+    \draw[fill=white] (G) circle (1pt) node [right] {\(\;g\)};
+  \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+\begin{align*}
+  R = \{&(b,g), (b,d), (b,e), (b,f), \\
+        &(a,g), (a,d), (a,e), (a,f), \\
+        &(c,g), (c,d), (c,e), (c,f)\}
+\end{align*}
+\end{minipage}
+
+
+\newpage
+\MajorTask{32} \noindent
+Gjeve Hasse-diagrammet
+
+\vspace{2mm}
+\begin{minipage}{.5\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=2]
+    \tikzset{edge/.style = {thick,shorten <=2pt,shorten >=2pt}}
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (1,0);
+    \coordinate (C) at (2,0);
+    \coordinate (D) at (0,1);
+    \coordinate (E) at (1,1);
+    \coordinate (F) at (2,1);
+    \coordinate (G) at (2,2);
+    \coordinate (H) at (1,2);
+    \coordinate (I) at (0,2);
+    \coordinate (J) at (0,3);
+    \coordinate (K) at (1,3);
+    \coordinate (L) at (0,4);
+    \coordinate (M) at (2,4);
+
+    \draw[edge] (A) -- (D);
+    \draw[edge] (B) -- (D);
+    \draw[edge] (B) -- (E);
+    \draw[edge] (C) -- (F);
+
+    \draw[edge] (D) -- (I);
+    \draw[edge] (D) -- (H);
+    \draw[edge] (E) -- (H);
+    \draw[edge] (F) -- (G);
+
+    \draw[edge] (I) -- (J) -- (L);
+    \draw[edge] (H) -- (K) -- (L);
+    \draw[edge] (H) -- (J);
+    \draw[edge] (G) -- (K) -- (M);
+    
+    \draw[fill=white] (A) circle (1pt) node [left] {\(a\)};
+    \draw[fill=white] (B) circle (1pt) node [right] {\(b\)};
+    \draw[fill=white] (C) circle (1pt) node [right] {\(c\)};
+    \draw[fill=white] (D) circle (1pt) node [left] {\(d\)};
+    \draw[fill=white] (E) circle (1pt) node [right] {\(e\)};
+    \draw[fill=white] (F) circle (1pt) node [right] {\(f\)};
+    \draw[fill=white] (G) circle (1pt) node [right] {\(g\)};
+    \draw[fill=white] (H) circle (1pt) node [right] {\(h\)};
+    \draw[fill=white] (I) circle (1pt) node [left] {\(i\)};
+    \draw[fill=white] (J) circle (1pt) node [left] {\(j\)};
+    \draw[fill=white] (K) circle (1pt) node [right] {\(k\)};
+    \draw[fill=white] (L) circle (1pt) node [left] {\(l\)};
+    \draw[fill=white] (M) circle (1pt) node [right] {\(m\)};
+  \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+  \Task{a} Kva er dei største elementa?
+
+  \(l\) og \(m\)
+
+  \vspace{2mm}
+  \Task{b} Kva er dei minste elementa?
+
+  \(a\), \(b\) og \(c\)
+
+  \vspace{2mm}
+  \Task{c} Er der eit største element?
+
+  Nei, ordninga seier ingenting om kva som er størst av \(l\) og \(m\),
+  dermed har den ikkje eit unikt største element.
+
+  \vspace{2mm}
+  \Task{d} Er der eit minste element?
+
+  Nei, ordninga seier ingenting om kva som er minst av \(a\), \(b\) og \(c\),
+  dermed har den ikkje eit unikt minste element.
+
+  \vspace{2mm}
+  \Task{e} Finn alle øvre grenser av \(\{a,b,c\}\)
+
+  \(\{k,l,m\}\) er øvre skranker av \(\{a,b,c\}\)
+
+\end{minipage}
+
+\Task{f} Finn den minste øvre grensa av \(\{a,b,c\}\) (dersom den eksisterer)
+
+\noindent
+\(k\) er øvre grense, og er unikt minst av desse, altso er \(k\) minste
+øvre grense.
+
+\vspace{2mm}
+\Task{g} Finn alle nedre grenser av \(\{f,g,h\}\)
+
+\noindent
+\(h\) har ingen felles nedre grense med \(f\) og \(g\), dermed har \(\{f,g,h\}\)
+nedre grenser \(\emptyset\)
+
+\vspace{2mm}
+\Task{h} Finn største nedre grense av \(\{f,g,h\}\) (dersom den eksisterer)
+
+\noindent
+Eksisterer ikkje
+
+
+\section*{Oppgåver til seksjon 10.2} \vspace{-5mm}
+\MajorTask{18} \noindent
+Skal vise at i ein enkel graf må minst to nodar ha same grad.
+
+\vspace{3mm}\noindent
+I ein enkel graf er det ikkje tillete at ei node kan ha meir enn ein kant
+til ei anna node. I ein enkel graf er det heller ingen løkker.
+I ein enkel graf på \(n\) nodar kan ei node derfor, på det meste, ha kantar
+berre til dei andre \(n-1\) nodene.
+
+\vspace{1mm} \noindent
+Sidan grafen har \(n\) nodar, og kvar av dei maksimalt kan ha \(n-1\) kantar,
+har vi av fugleburprinsippet at {\em minst to} av nodane må ha like mange kantar,
+altso har dei same grad.
+
+
+\newpage
+\MajorTask{22} \noindent
+Skal avgjere om grafen er todelt (er det dette det heiter på norsk?).
+Bruker Teorem 4, og fargar nodane i grafen.
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \tikzset{edge/.style = {thick,shorten <= 2pt,shorten >= 2pt,>=stealth}}
+    \coordinate (a) at (0,1);
+    \coordinate (b) at (1,2);
+    \coordinate (c) at (3,2);
+    \coordinate (d) at (4,1);
+    \coordinate (e) at (2,0);
+
+    \draw[edge] (a) -- (d);
+    \draw[edge] (a) -- (b) -- (c) -- (d);
+    \draw[edge] (a) -- (e) -- (c);
+
+    \draw[fill=black] (a) circle (2pt) node [left] {$a$};
+    \draw[fill=white] (b) circle (2pt) node [above] {$b$};
+    \draw[fill=black] (c) circle (2pt) node [above] {$c$};
+    \draw[fill=white] (d) circle (2pt) node [right] {$d$};
+    \draw[fill=white] (e) circle (2pt) node [below] {$e$};
+  \end{tikzpicture}
+\end{figure}
+
+\noindent
+Vi ser at grafen er todelt.
+
+
+\MajorTask{26}
+\Task{a} \(K_n\) er berre todelt for \(n=1,2\).
+\(K_3\) er ikkje todelt (sjå figur; vi kan ikkje farge den grå noden),
+og \(K_3\) er delgraf i alle \(K_n,\; n \geq 3\).
+Dermed er ingen andre komplette grafar todelte.
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture} 
+    \coordinate (a) at (0,0);
+    \coordinate (b) at (2,0);
+    \coordinate (c) at (1,1.732);
+
+    \draw (a) -- (b) -- (c) -- cycle;
+    
+    \draw[fill=black] (a) circle (2pt);
+    \draw[fill=white] (b) circle (2pt);
+    \draw[fill=gray] (c) circle (2pt);
+  \end{tikzpicture}
+\end{figure}
+
+\vspace{3mm}
+\Task{b} \(C_n\) er todelt for partal \(n\). Dette ser vi enkelt dersom
+vi teiknar sykliske grafar på ein spesiell måte:
+
+\begin{center}
+\begin{minipage}{.4\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=.5]
+    \coordinate (a) at (0,0);
+    \coordinate (b) at (0,2);
+    \coordinate (c) at (2,0);
+    \coordinate (d) at (2,2);
+    \coordinate (e) at (4,0);
+    \coordinate (f) at (4,2);
+    \coordinate (g) at (6,0);
+    \coordinate (h) at (6,2);
+    \coordinate (i) at (8,0);
+    \coordinate (j) at (8,2);
+
+    \draw (a)--(b)--(d)--(f);
+    \draw[dotted] (f)--(h);
+    \draw (h)--(j)--(i)--(g);
+    \draw[dotted] (g)--(e);
+    \draw (e)--(c)--(a);
+
+    \draw[->,shorten <= 6pt, shorten >= 6pt] (d) to [bend left] (c);
+    \draw[->,shorten <= 6pt, shorten >= 6pt] (c) to [bend left] (d);
+    \draw[->,shorten <= 6pt, shorten >= 6pt] (h) to [bend left] (g);
+    \draw[->,shorten <= 6pt, shorten >= 6pt] (g) to [bend left] (h);
+
+    \draw[fill=black] (a) circle (4pt);
+    \draw[fill=white] (b) circle (4pt);
+    \draw[fill=white] (c) circle (4pt);
+    \draw[fill=black] (d) circle (4pt);
+    \draw[fill=black] (e) circle (4pt);
+    \draw[fill=white] (f) circle (4pt);
+    \draw[fill=white] (g) circle (4pt);
+    \draw[fill=black] (h) circle (4pt);
+    \draw[fill=black] (i) circle (4pt);
+    \draw[fill=white] (j) circle (4pt);
+  \end{tikzpicture}
+\end{minipage}
+\(\rightarrow\)
+\begin{minipage}{.4\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=.5]
+    \coordinate (a) at (0,0);
+    \coordinate (b) at (0,2);
+    \coordinate (c) at (2,2);
+    \coordinate (d) at (2,0);
+    \coordinate (e) at (4,0);
+    \coordinate (f) at (4,2);
+    \coordinate (g) at (6,2);
+    \coordinate (h) at (6,0);
+    \coordinate (i) at (8,0);
+    \coordinate (j) at (8,2);
+
+    \draw[gray, dashed] (-1,1) -- (9,1);
+
+    \draw (a)--(b)--(d)--(f);
+    \draw[dotted] (f)--(h);
+    \draw (h)--(j)--(i)--(g);
+    \draw[dotted] (g)--(e);
+    \draw (e)--(c)--(a);
+
+    \draw[fill=black] (a) circle (4pt);
+    \draw[fill=white] (b) circle (4pt);
+    \draw[fill=white] (c) circle (4pt);
+    \draw[fill=black] (d) circle (4pt);
+    \draw[fill=black] (e) circle (4pt);
+    \draw[fill=white] (f) circle (4pt);
+    \draw[fill=white] (g) circle (4pt);
+    \draw[fill=black] (h) circle (4pt);
+    \draw[fill=black] (i) circle (4pt);
+    \draw[fill=white] (j) circle (4pt);
+  \end{tikzpicture}
+\end{minipage}
+\end{center}
+
+\noindent Sykliske grafar med odde \(n\) er ikkje todelte:
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}[scale=.5]
+    \coordinate (a) at (0,0);
+    \coordinate (b) at (0,2);
+    \coordinate (c) at (2,2);
+    \coordinate (d) at (2,0);
+    \coordinate (e) at (4,0);
+    \coordinate (f) at (4,2);
+    \coordinate (g) at (6,2);
+    \coordinate (h) at (6,0);
+    \coordinate (i) at (8,0);
+    \coordinate (j) at (8,2);
+
+    \coordinate (k) at (9.73, 1);
+
+    \draw (a)--(b)--(d)--(f);
+    \draw[dotted] (f)--(h);
+    \draw (h)--(j);
+    \draw[dashed] (j)--(i);
+    \draw (i)--(g);
+    \draw[dotted] (g)--(e);
+    \draw (e)--(c)--(a);
+    \draw (i)--(k)--(j);
+
+    \draw[fill=black] (a) circle (4pt);
+    \draw[fill=white] (b) circle (4pt);
+    \draw[fill=white] (c) circle (4pt);
+    \draw[fill=black] (d) circle (4pt);
+    \draw[fill=black] (e) circle (4pt);
+    \draw[fill=white] (f) circle (4pt);
+    \draw[fill=white] (g) circle (4pt);
+    \draw[fill=black] (h) circle (4pt);
+    \draw[fill=black] (i) circle (4pt);
+    \draw[fill=white] (j) circle (4pt);
+    \draw[fill=gray] (k) circle (4pt);
+  \end{tikzpicture}
+\end{figure}
+
+\noindent
+Uavhengig av kvar i grafen vi set inn ei ny node må vi plassere den mellom
+ei svart og ei kvit, og dermed kan den ikkje fargast verken svart eller kvit.
+
+\vspace{3mm}
+\Task{c} \(W_n\) er aldri todelt. \(W_n\) har alltid \(C_n\) som undergraf med \(n \geq 3\),
+og sjølv når denne er todelt kan ein ikkje legge til ei node med kantar
+til alle nodene i \(C_n\) slik at det er mogleg å farge den svart eller kvit
+j.f. Teorem 4.
+
+
+\end{document}
